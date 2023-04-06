@@ -10,8 +10,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Quarto CLI
         run: |
-          Rscript -e 'install.packages(c("googledrive", "flexdashboard"))'
+          Rscript -e 'install.packages("quarto")'
       - name: Update report
-        run: Rscript update_report.R
+        run: |
+          quarto render Assignment-7.qmd --to md
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "tc.mchale@gmail.com"
+          git config --global user.name "Thomas McHale"
+          git add Assignment-7.md
+          git commit -m "Update ICU report"
+          git push
