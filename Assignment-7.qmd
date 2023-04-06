@@ -1,0 +1,93 @@
+---
+title: "Assignment-7"
+author: "Thomas McHale"
+date: "06 April 2023"
+echo: true
+warning: false
+format: html
+editor: visual
+---
+
+# Assignment 7
+
+### Date and Time: `r Sys.time()`
+
+```{r}
+source("sepsis_monitor_functions.R")
+
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(ggplot2)
+library(tidyverse)
+library(data.table) ## For the fread function
+library(lubridate)
+library(tictoc)
+library(googledrive)
+
+drive_deauth()
+file_link <- "https://drive.google.com/file/d/1-BqFL73u2z4Uq-bGZbmIfrpATnNr4ymu/view?usp=share_link"
+
+## All data up until now
+new_data <- updateData(file_link)
+
+## Include only most recent data
+most_recent_data <- new_data %>%
+  group_by(PatientID) %>%
+  filter(obsTime == max(obsTime))
+
+```
+
+The patients we will look at in this report include the last 50 observations from the time the report was started, indicated above. This includes `r n_distinct(most_recent_data$PatientID)` patients recently in the ICU. Of those `r n_distinct(most_recent_data$PatientID)` patients, `r n_distinct(most_recent_data$SepsisLabel==1)` have sepsis at the time of this report. We will start by looking at the vitals of patients who currently have sepsis.
+
+### Table 1: Most recent vital signs of patients in the ICU with sepsis
+
+```{r}
+sepsis_pts <- subset(most_recent_data, SepsisLabel==1)
+
+sepsis_table <- select(sepsis_pts, -ICULOS, -SepsisLabel, -obsTime)
+colnames(sepsis_table) <- c("Patient ID", "Heart Rate", "Temperature", "Respiratory Rate")
+kable(sepsis_table)
+
+```
+
+### Figure 1: Vitals signs for patients with sepsis while in the ICU
+
+```{r}
+
+sepsis_plots <- lapply(unique(sepsis_pts$PatientID), function(patient){
+  patient_data <- subset(sepsis_pts, PatientID == patient)
+  ggplot(data = patient_data, aes(x = obsTime)) +
+    geom_point(data = subset(patient_data, !is.na(HR)), aes(y = HR, colour = "HR")) +
+    geom_point(data = subset(patient_data, !is.na(Temp)), aes(y = Temp, colour = "Temp")) +
+    geom_point(data = subset(patient_data, !is.na(Resp)), aes(y = Resp, colour = "Resp")) +
+    labs(x = "Observation Time", y = "Resp = breaths/minute,  Temp = ºC,  HR = beats/minute", colour = "Vital Sign") +
+    scale_x_datetime(date_labels = "%m/%d/%Y %H:%M") + 
+    ggtitle(paste("Patient", patient))
+})
+sepsis_plots
+
+```
+
+### Table 2: Recent Change in Vital Signs
+
+```{r}
+sepsis_pts <- subset(new_data, SepsisLabel==1)
+
+sepsis_pts %>%
+  group_by(PatientID) %>%
+  arrange(obsTime) %>%
+  mutate(prevHR = lag(HR), prevTemp = lag(Temp), prevResp = lag(Resp)) %>%
+  summarise(
+    `Change in Heart Rate (bpm)` = last(HR) - last(prevHR),
+    `Change in Temp (ºC)` = last(Temp) - last(prevTemp),
+    `Change in Resp Rate (rpm)` = last(Resp) - last(prevResp)
+  ) %>%
+  kable()
+```
+
+::: callout-note
+Note that the most_recent_data file only had a single observation of vitals for patients. Thus in order for the change in vitals to display meaningful data, I switched to the new_data file.
+
+The plots are also more interesting when looking at new_data vs most_recent_data (and changing to a line instead of point). But I leave it as most_recent_data. The code for this is included in my script.
+:::
