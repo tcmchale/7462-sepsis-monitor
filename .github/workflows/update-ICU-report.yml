@@ -1,0 +1,17 @@
+name: Update ICU report
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  update-report:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          Rscript -e 'install.packages(c("googledrive", "flexdashboard"))'
+      - name: Update report
+        run: Rscript update_report.R
