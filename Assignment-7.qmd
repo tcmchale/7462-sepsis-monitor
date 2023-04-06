@@ -40,7 +40,7 @@ most_recent_data <- new_data %>%
 
 The patients we will look at in this report include the last 50 observations from the time the report was started, indicated above. This includes `r n_distinct(most_recent_data$PatientID)` patients recently in the ICU. Of those `r n_distinct(most_recent_data$PatientID)` patients, `r n_distinct(most_recent_data$SepsisLabel==1)` have sepsis at the time of this report. We will start by looking at the vitals of patients who currently have sepsis.
 
-### Table 1: Most recent vital signs of patients in the ICU with sepsis
+### Table 1: Most recent vital signs of patients with sepsis in the ICU
 
 ```{r}
 sepsis_pts <- subset(most_recent_data, SepsisLabel==1)
