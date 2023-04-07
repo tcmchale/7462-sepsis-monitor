@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -139,8 +139,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="assignment-7" class="level1">
 <h1>Assignment 7</h1>
-<section id="date-and-time-2023-04-07-131410" class="level3">
-<h3 class="anchored" data-anchor-id="date-and-time-2023-04-07-131410">Date and Time: 2023-04-07 13:14:10</h3>
+<section id="date-and-time-2023-04-07-091341" class="level3">
+<h3 class="anchored" data-anchor-id="date-and-time-2023-04-07-091341">Date and Time: 2023-04-07 09:13:41</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"sepsis_monitor_functions.R"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -215,17 +215,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="figure-1-vitals-signs-for-patients-with-sepsis-while-in-the-icu" class="level3">
 <h3 class="anchored" data-anchor-id="figure-1-vitals-signs-for-patients-with-sepsis-while-in-the-icu">Figure 1: Vitals signs for patients with sepsis while in the ICU</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sepsis_plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">unique</span>(sepsis_pts<span class="sc">$</span>PatientID), <span class="cf">function</span>(patient){</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  patient_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(sepsis_pts, PatientID <span class="sc">==</span> patient)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> patient_data, <span class="fu">aes</span>(<span class="at">x =</span> obsTime)) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(HR)), <span class="fu">aes</span>(<span class="at">y =</span> HR, <span class="at">colour =</span> <span class="st">"HR"</span>)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(Temp)), <span class="fu">aes</span>(<span class="at">y =</span> Temp, <span class="at">colour =</span> <span class="st">"Temp"</span>)) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(Resp)), <span class="fu">aes</span>(<span class="at">y =</span> Resp, <span class="at">colour =</span> <span class="st">"Resp"</span>)) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Observation Time"</span>, <span class="at">y =</span> <span class="st">"Resp = breaths/minute,  Temp = ºC,  HR = beats/minute"</span>, <span class="at">colour =</span> <span class="st">"Vital Sign"</span>) <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">date_labels =</span> <span class="st">"%m/%d/%Y %H:%M"</span>) <span class="sc">+</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Patient"</span>, patient))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>sepsis_plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sepsis_pts <span class="ot">&lt;-</span> <span class="fu">subset</span>(new_data, SepsisLabel<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sepsis_plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">unique</span>(sepsis_pts<span class="sc">$</span>PatientID), <span class="cf">function</span>(patient){</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  patient_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(sepsis_pts, PatientID <span class="sc">==</span> patient)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> patient_data, <span class="fu">aes</span>(<span class="at">x =</span> obsTime)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(HR)), <span class="fu">aes</span>(<span class="at">y =</span> HR, <span class="at">colour =</span> <span class="st">"HR"</span>)) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(Temp)), <span class="fu">aes</span>(<span class="at">y =</span> Temp, <span class="at">colour =</span> <span class="st">"Temp"</span>)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">subset</span>(patient_data, <span class="sc">!</span><span class="fu">is.na</span>(Resp)), <span class="fu">aes</span>(<span class="at">y =</span> Resp, <span class="at">colour =</span> <span class="st">"Resp"</span>)) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Observation Time"</span>, <span class="at">y =</span> <span class="st">"Resp = rpm,  Temp = ºC,  HR = bpm"</span>, <span class="at">colour =</span> <span class="st">"Vital Sign"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">date_labels =</span> <span class="st">"%m/%d/%Y %H:%M"</span>) <span class="sc">+</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Patient"</span>, patient)) <span class="sc">+</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">38</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">min</span>(patient_data<span class="sc">$</span>obsTime), <span class="at">y =</span> <span class="dv">38</span>, <span class="at">label =</span> <span class="st">"38 ºC"</span>, hjust</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>             <span class="ot">=</span><span class="sc">-</span><span class="fl">0.1</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>sepsis_plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]</code></pre>
 </div>
@@ -326,7 +331,6 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Note that the most_recent_data file only had a single observation of vitals for patients. Thus in order for the change in vitals to display meaningful data, I switched to the new_data file.</p>
-<p>The plots are also more interesting when looking at new_data vs most_recent_data (and changing to a line instead of point). But I leave it as most_recent_data. The code for this is included in my script.</p>
 </div>
 </div>
 </section>

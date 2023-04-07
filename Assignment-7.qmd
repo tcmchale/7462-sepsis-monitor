@@ -52,16 +52,21 @@ kable(sepsis_table)
 
 ```{r}
 
+sepsis_pts <- subset(new_data, SepsisLabel==1)
 sepsis_plots <- lapply(unique(sepsis_pts$PatientID), function(patient){
   patient_data <- subset(sepsis_pts, PatientID == patient)
   ggplot(data = patient_data, aes(x = obsTime)) +
-    geom_point(data = subset(patient_data, !is.na(HR)), aes(y = HR, colour = "HR")) +
-    geom_point(data = subset(patient_data, !is.na(Temp)), aes(y = Temp, colour = "Temp")) +
-    geom_point(data = subset(patient_data, !is.na(Resp)), aes(y = Resp, colour = "Resp")) +
-    labs(x = "Observation Time", y = "Resp = breaths/minute,  Temp = ºC,  HR = beats/minute", colour = "Vital Sign") +
+    geom_line(data = subset(patient_data, !is.na(HR)), aes(y = HR, colour = "HR")) +
+    geom_line(data = subset(patient_data, !is.na(Temp)), aes(y = Temp, colour = "Temp")) +
+    geom_line(data = subset(patient_data, !is.na(Resp)), aes(y = Resp, colour = "Resp")) +
+    labs(x = "Observation Time", y = "Resp = rpm,  Temp = ºC,  HR = bpm", colour = "Vital Sign") +
     scale_x_datetime(date_labels = "%m/%d/%Y %H:%M") + 
-    ggtitle(paste("Patient", patient))
-})
+    ggtitle(paste("Patient", patient)) + 
+    geom_hline(yintercept = 38, linetype = "dotted", color = "red") +
+    annotate("text", x = min(patient_data$obsTime), y = 38, label = "38 ºC", hjust
+             =-0.1, vjust = 0.5, color = "red") +
+    theme(axis.text.y = element_text(color = "black"))
+  })
 sepsis_plots
 
 ```
@@ -85,6 +90,4 @@ sepsis_pts %>%
 
 ::: callout-note
 Note that the most_recent_data file only had a single observation of vitals for patients. Thus in order for the change in vitals to display meaningful data, I switched to the new_data file.
-
-The plots are also more interesting when looking at new_data vs most_recent_data (and changing to a line instead of point). But I leave it as most_recent_data. The code for this is included in my script.
 :::
