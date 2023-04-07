@@ -89,7 +89,7 @@ sepsis_plots <- lapply(unique(sepsis_pts$PatientID), function(patient){
     geom_line(data = subset(patient_data, !is.na(Resp)), aes(y = Resp, colour = "Resp")) +
     labs(x = "Observation Time", y = "HR = beats/minute, Resp = breaths/minute, Temp = ºC", colour = "Vital Sign") +
     scale_x_datetime(date_labels = "%m/%d/%Y %H:%M") + 
-    ggtitle(paste("Patient", patient))
+    ggtitle(paste("Patient", patient)) + 
 })
 sepsis_plots
 
