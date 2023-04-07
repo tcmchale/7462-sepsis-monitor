@@ -24,17 +24,9 @@ jobs:
           r-version: '4.2.0' # The R version to download (if necessary) and use.
  
       - name: Install packages
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-            packages:
-               any::knitr
-               any::rmarkdown
-               any::dplyr
-               any::tidyr
-               any::ggplot2
-               any::readr
-               any::tidyverse
-               any::googledrive
+        run: |
+          Rscript -e 'install.packages(c("knitr", "rmarkdown", "dplyr", "tidyr", "ggplot2", "readr", "tidyverse", "googledrive"), repos="http://cran.us.r-project.org")'
+
 
       - name: Update ICU Report
         uses: quarto-dev/quarto-actions/render@v2
@@ -46,9 +38,9 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-
       - name: Commit
         run: |
           git add .
           git commit -m "Updated report"
           git push origin main
+
