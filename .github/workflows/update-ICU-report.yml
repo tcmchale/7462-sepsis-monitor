@@ -1,37 +1,56 @@
-name: Update ICU report
-
 on:
-  schedule:
-    - cron: '0 * * * *'
+  push:
+    branches: main
+  workflow_dispatch:
+
+name: Update ICU Report
 
 jobs:
-  update-report:
-    runs-on: macos-latest
+  build-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+        contents: write
+        
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
-          ref: main
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+          r-version: '4.2.0' # The R version to download (if necessary) and use.
+ 
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          node-version: '12.x'
-      - name: Install R and Quarto
+            packages:
+               any::knitr
+               any::rmarkdown
+               any::jsonlite
+               any::dplyr
+               any::tidyr
+               any::ggplot2
+               any::readr
+               any::lubridate
+               any::forcats
+
+      - name: Update ICU Report
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html
+          path: Assignment-7.qmd
+
+      - name: Setup git config
         run: |
-          sudo apt-get update
-          sudo apt-get install r-base
-          export R_VERSION=$(ls /Library/Frameworks/R.framework/Versions/ | grep -v Current | tail -1)
-          Rscript -e 'install.packages("quarto")'
-      - name: Set CRAN mirror
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Commit
         run: |
-          options(repos = c(CRAN = "https://cloud.r-project.org"))
-      - name: Update report
-        run: |
-          quarto render Assignment-7.qmd --to md
-      - name: Commit and push changes
-        run: |
-          git config --global user.email "tc.mchale@gmail.com"
-          git config --global user.name "Thomas McHale"
-          git add Assignment-7.md
-          git commit -m "Update Assignment 7 report"
-          git push
+          git add .
+          git commit -m "Updated report"
+          git push origin main
