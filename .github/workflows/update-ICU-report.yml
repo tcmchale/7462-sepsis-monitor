@@ -25,8 +25,7 @@ jobs:
  
       - name: Install packages
         run: |
-          Rscript -e 'install.packages(c("knitr", "rmarkdown", "dplyr", "tidyr", "ggplot2", "readr", "tidyverse", "googledrive"), repos="http://cran.us.r-project.org")'
-
+           Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org/")); install.packages(c("knitr","dplyr", "tidyr", "ggplot2", "readr", "tidyverse", "googledrive"), dependencies = TRUE)'
 
       - name: Update ICU Report
         uses: quarto-dev/quarto-actions/render@v2
