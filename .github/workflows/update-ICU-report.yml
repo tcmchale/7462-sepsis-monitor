@@ -29,15 +29,11 @@ jobs:
             packages:
                any::knitr
                any::rmarkdown
-               any::jsonlite
                any::dplyr
                any::tidyr
                any::ggplot2
                any::readr
-               any::lubridate
-               any::forcats
                any::tidyverse
-               any::data.table
                any::googledrive
 
       - name: Update ICU Report
