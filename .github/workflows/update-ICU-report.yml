@@ -1,4 +1,4 @@
-name: Update ICU report
+name: Update Assignment 7 report
 
 on:
   schedule:
@@ -10,13 +10,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: main
       - name: Setup Node.js
         uses: actions/setup-node@v2
-        with: 
-          node-version: '16.x'
-      - name: Install Quarto CLI
+        with:
+          node-version: '12.x'
+      - name: Install R and Quarto
         run: |
+          sudo apt-get update
+          sudo apt-get install r-base
           Rscript -e 'install.packages("quarto")'
+      - name: Set CRAN mirror
+        run: |
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
       - name: Update report
         run: |
           quarto render Assignment-7.qmd --to md
@@ -25,5 +32,5 @@ jobs:
           git config --global user.email "tc.mchale@gmail.com"
           git config --global user.name "Thomas McHale"
           git add Assignment-7.md
-          git commit -m "Update ICU report"
+          git commit -m "Update Assignment 7 report"
           git push
