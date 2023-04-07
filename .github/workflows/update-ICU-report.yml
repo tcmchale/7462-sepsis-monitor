@@ -20,6 +20,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install r-base
+          export R_VERSION=$(ls /Library/Frameworks/R.framework/Versions/ | grep -v Current | tail -1)
           Rscript -e 'install.packages("quarto")'
       - name: Set CRAN mirror
         run: |
