@@ -20,9 +20,6 @@ library(tidyr)
 library(knitr)
 library(ggplot2)
 library(tidyverse)
-library(data.table) ## For the fread function
-library(lubridate)
-library(tictoc)
 library(googledrive)
 
 drive_deauth()
