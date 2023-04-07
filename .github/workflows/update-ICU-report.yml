@@ -1,7 +1,6 @@
 on:
-  push: 
-    branches: main
-  workflow_dispatch: 
+  schedule:
+    - cron: '0 * * * *'
 
 name: Update ICU Report
 
