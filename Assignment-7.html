@@ -139,8 +139,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="assignment-7" class="level1">
 <h1>Assignment 7</h1>
-<section id="date-and-time-2023-04-15-181329" class="level3">
-<h3 class="anchored" data-anchor-id="date-and-time-2023-04-15-181329">Date and Time: 2023-04-15 18:13:29</h3>
+<section id="date-and-time-2023-04-15-191007" class="level3">
+<h3 class="anchored" data-anchor-id="date-and-time-2023-04-15-191007">Date and Time: 2023-04-15 19:10:07</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"sepsis_monitor_functions.R"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -198,16 +198,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td style="text-align: left;">003231</td>
 <td style="text-align: right;">98</td>
-<td style="text-align: right;">38.9</td>
+<td style="text-align: right;">38.90</td>
 <td style="text-align: right;">19</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">004689</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">37.56</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">007128</td>
 <td style="text-align: right;">103</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">18</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">009145</td>
 <td style="text-align: right;">115</td>
 <td style="text-align: right;">NA</td>
@@ -271,23 +277,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><img src="Assignment-7_files/figure-html/unnamed-chunk-3-5.png" class="img-fluid" width="672"></p>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[6]]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Assignment-7_files/figure-html/unnamed-chunk-3-6.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="table-2-recent-change-in-vital-signs" class="level3">
 <h3 class="anchored" data-anchor-id="table-2-recent-change-in-vital-signs">Table 2: Recent Change in Vital Signs</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sepsis_pts <span class="ot">&lt;-</span> <span class="fu">subset</span>(new_data, SepsisLabel<span class="sc">==</span><span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sepsis_pts <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PatientID) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(obsTime) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prevHR =</span> <span class="fu">lag</span>(HR), <span class="at">prevTemp =</span> <span class="fu">lag</span>(Temp), <span class="at">prevResp =</span> <span class="fu">lag</span>(Resp)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Heart Rate (bpm)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(HR) <span class="sc">-</span> <span class="fu">last</span>(prevHR),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Temp (ºC)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(Temp) <span class="sc">-</span> <span class="fu">last</span>(prevTemp),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Resp Rate (rpm)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(Resp) <span class="sc">-</span> <span class="fu">last</span>(prevResp)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sepsis_pts <span class="ot">&lt;-</span> <span class="fu">subset</span>(new_data, SepsisLabel<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sepsis_pts <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PatientID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(obsTime) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prevHR =</span> <span class="fu">lag</span>(HR), <span class="at">prevTemp =</span> <span class="fu">lag</span>(Temp), <span class="at">prevResp =</span> <span class="fu">lag</span>(Resp)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Heart Rate (bpm)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(HR) <span class="sc">-</span> <span class="fu">last</span>(prevHR),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Temp (ºC)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(Temp) <span class="sc">-</span> <span class="fu">last</span>(prevTemp),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Change in Resp Rate (rpm)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">last</span>(Resp) <span class="sc">-</span> <span class="fu">last</span>(prevResp)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <colgroup>
@@ -324,12 +337,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">004689</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">007128</td>
 <td style="text-align: right;">-4</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">009145</td>
 <td style="text-align: right;">-5</td>
 <td style="text-align: right;">NA</td>
